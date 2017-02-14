@@ -9,6 +9,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
  * Created by User on 2.2.2017 г..
  */
 var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+var forms_1 = require("@angular/forms");
 var home_component_1 = require("./home.component");
 var login_component_1 = require("./../../components/login/login.component");
 var HomeModule = (function () {
@@ -19,6 +21,7 @@ var HomeModule = (function () {
 HomeModule = __decorate([
     core_1.NgModule({
         declarations: [home_component_1.HomeComponent, login_component_1.LoginComponent],
+        imports: [forms_1.FormsModule, http_1.HttpModule],
         // It is a must to export component dus make it visible
         exports: [home_component_1.HomeComponent]
     })

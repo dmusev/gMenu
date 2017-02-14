@@ -1,6 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule }   from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { AppComponent }  from './app.component';
 
 // Header
@@ -14,13 +15,15 @@ import { HomeModule } from './modules/home/home.module';
 import { RegisterComponent } from './components/register/register.component';
 // Routes
 import { Routing } from './app.routes';
+// Auth Guard
+import { AuthGuard } from './utils/authGuard.component';
 
 //additional libs
 
 @NgModule({
-  imports:      [ BrowserModule, HomeModule, Routing ],
+  imports:      [ BrowserModule, HomeModule, FormsModule, Routing, HttpModule ],
   declarations: [ AppComponent, HeaderComponent, FooterComponent, RegisterComponent],
-  providers: [],
+  providers: [ AuthGuard ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

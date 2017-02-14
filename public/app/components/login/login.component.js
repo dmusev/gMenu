@@ -10,10 +10,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var login_service_1 = require("./login.service");
+var router_1 = require("@angular/router");
 var LoginComponent = (function () {
-    function LoginComponent(loginService) {
+    function LoginComponent(route, router, loginService) {
+        this.route = route;
+        this.router = router;
+        this.loginService = loginService;
+        this.loading = false;
+        this.user = {
+            name: '',
+            password: ''
+        };
         this.instUrl = loginService.getInstagralUrl();
     }
+    LoginComponent.prototype.ngOnInit = function () {
+        // get return url from route parameters or default to '/'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    };
+    LoginComponent.prototype.submitLogin = function () {
+        var _this = this;
+        this.loading = true;
+        this.loginService.login(this.user.name, this.user.password)
+            .subscribe(function (data) {
+            _this.router.navigate([_this.returnUrl]);
+        }, function (error) {
+            console.error(error);
+            _this.loading = false;
+        });
+    };
     LoginComponent.prototype.reqInst = function () {
     };
     return LoginComponent;
@@ -25,7 +49,9 @@ LoginComponent = __decorate([
         templateUrl: './login.view.html',
         providers: [login_service_1.LoginService]
     }),
-    __metadata("design:paramtypes", [login_service_1.LoginService])
+    __metadata("design:paramtypes", [router_1.ActivatedRoute,
+        router_1.Router,
+        login_service_1.LoginService])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

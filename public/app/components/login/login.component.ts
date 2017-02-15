@@ -9,7 +9,6 @@ import { Router, ActivatedRoute } from '@angular/router';
   providers:  [ LoginService ]
 })
 export class LoginComponent implements OnInit {
-  instUrl: String;
   loading = false;
   returnUrl: string;
 
@@ -22,10 +21,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private loginService: LoginService) {
-
-      this.instUrl = loginService.getInstagralUrl();
-  }
+    private loginService: LoginService) {}
 
   ngOnInit() {
     // get return url from route parameters or default to '/'
@@ -44,9 +40,5 @@ export class LoginComponent implements OnInit {
                 console.error(error);
                 this.loading = false;
             });
-  }
-
-  public reqInst() {
-
   }
 }

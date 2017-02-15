@@ -10,34 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+var Rx_1 = require("rxjs/Rx");
+// Import RxJs required methods
 require("rxjs/add/operator/map");
 var LoginService = (function () {
     function LoginService(http) {
         this.http = http;
-        this.instagramClientId = 'ee5ef913d1a347b488174752523f16c2';
-        this.instagramUrl = 'https://api.instagram.com/oauth/authorize/?client_id='
-            + this.instagramClientId + '&redirect_uri=http://localhost:3000&response_type=token';
-    }
+        this.postUrlPath = '/api/users/authenticate'; // Private intance variable
+    } // Resolve http using constructor
     LoginService.prototype.login = function (username, password) {
         var bodyString = JSON.stringify({ username: username, password: password });
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers }); // Create a request option
-        return this.http.post('/api/users/authenticate', bodyString, options)
+        return this.http.post(this.postUrlPath, bodyString, options)
             .map(function (res) {
-            var user = res.json();
-            console.log(user);
+            var user = res.json(); // .json() on the response to return data
             if (user) {
                 localStorage.setItem('currentUser', JSON.stringify(user));
             }
-        }); // ...and calling .json() on the response to return data
-        //  .catch((error:any) => Observable.throw(error.json().error || 'Server error')); //...errors if any
+        }).catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); }); // catch errors if any
     };
     LoginService.prototype.logout = function () {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
-    };
-    LoginService.prototype.getInstagralUrl = function () {
-        return this.instagramUrl;
     };
     return LoginService;
 }());

@@ -21,7 +21,6 @@ var LoginComponent = (function () {
             name: '',
             password: ''
         };
-        this.instUrl = loginService.getInstagralUrl();
     }
     LoginComponent.prototype.ngOnInit = function () {
         // get return url from route parameters or default to '/'
@@ -37,8 +36,6 @@ var LoginComponent = (function () {
             console.error(error);
             _this.loading = false;
         });
-    };
-    LoginComponent.prototype.reqInst = function () {
     };
     return LoginComponent;
 }());

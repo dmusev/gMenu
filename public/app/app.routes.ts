@@ -18,7 +18,5 @@ export const routes: Routes = [
   { path: '**', redirectTo: '/' }
 ];
 
-  
-
 // Export
 export const Routing: ModuleWithProviders = RouterModule.forRoot(routes);

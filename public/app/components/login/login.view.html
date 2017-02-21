@@ -31,15 +31,33 @@
                 </div>
                 <div class="col-xs-6">
                     <p class="lead">Register now for <span class="text-success">FREE</span></p>
-                    <ul class="list-unstyled" style="line-height: 2">
+                    <!--<ul class="list-unstyled" style="line-height: 2">
                         <li><span class="fa fa-check text-success"></span> See all your orders</li>
                         <li><span class="fa fa-check text-success"></span> Fast re-order</li>
                         <li><span class="fa fa-check text-success"></span> Save your favorites</li>
                         <li><span class="fa fa-check text-success"></span> Fast checkout</li>
                         <li><span class="fa fa-check text-success"></span> Get a gift <small>(only new customers)</small></li>
                         <li><a href="/read-more/"><u>Read more</u></a></li>
-                    </ul>
-                    <p><a href="/new-customer/" class="btn btn-info btn-block">Yes please, register now!</a></p>
+                    </ul>-->
+                    <div class="well">
+                        <form id="regForm" (submit)="submitRegistration()" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="control-label">Username</label>
+                                <input [(ngModel)]="user.name" type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username" placeholder="example@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="control-label">Password</label>
+                                <input [(ngModel)]="user.password" type="password" class="form-control" id="password" name="password" value="" required="" title="Please enter your password">
+                            </div>
+                            <div class="form-group">
+                                <label *ngFor="let radioButton of radioButtons" class="radio-inline" for="{{radioButton.id}}">
+                                <input type="radio" name="Role" id="{{radioButton.id}}" value="{{radioButton.value}}" checked="unchecked">
+                                {{radioButton.display}}
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-block">Register now!</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -21,6 +21,11 @@ var LoginComponent = (function () {
             name: '',
             password: ''
         };
+        this.radioButtons = [
+            { value: 'admin', display: 'Admin', id: 'Role-0' },
+            { value: 'customer', display: 'Customer', id: 'Role-1' },
+            { value: 'waiter', display: 'Waiter', id: 'Role-2' }
+        ];
     }
     LoginComponent.prototype.ngOnInit = function () {
         // get return url from route parameters or default to '/'
@@ -44,6 +49,7 @@ LoginComponent = __decorate([
         moduleId: module.id,
         selector: 'login',
         templateUrl: './login.view.html',
+        styleUrls: ['./login.styles.css'],
         providers: [login_service_1.LoginService]
     }),
     __metadata("design:paramtypes", [router_1.ActivatedRoute,

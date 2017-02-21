@@ -10,7 +10,7 @@ import { AuthGuard } from './utils/authGuard.component';
 
 // Route Configuration
 export const routes: Routes = [
-  { path: '', component: HomeComponent,  canActivate: [AuthGuard]},
+  { path: '', component: HomeComponent, canActivate: [AuthGuard]},
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},

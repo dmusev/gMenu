@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
+
 @Component({
   moduleId: module.id,
   selector:    'login',
   templateUrl: './login.view.html',
+  styleUrls: ['./login.styles.css'],
   providers:  [ LoginService ]
 })
 export class LoginComponent implements OnInit {
@@ -17,6 +19,11 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
+   radioButtons = [
+    {value: 'admin', display: 'Admin', id: 'Role-0'},
+    {value: 'customer', display: 'Customer', id: 'Role-1'},
+    {value: 'waiter', display: 'Waiter', id: 'Role-2'}
+  ];
 
   constructor(
     private route: ActivatedRoute,

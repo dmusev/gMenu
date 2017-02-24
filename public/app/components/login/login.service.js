@@ -9,13 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var http_1 = require("@angular/http");
 var Rx_1 = require("rxjs/Rx");
 // Import RxJs required methods
 require("rxjs/add/operator/map");
 var LoginService = (function () {
-    function LoginService(http) {
+    function LoginService(http, router) {
         this.http = http;
+        this.router = router;
         this.postUrlPath = '/api/users/authenticate'; // Private intance variable
     } // Resolve http using constructor
     LoginService.prototype.login = function (username, password) {
@@ -34,11 +36,26 @@ var LoginService = (function () {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
     };
+    LoginService.prototype.navigate = function (userRole) {
+        if (userRole && userRole === 'admin') {
+            this.router.navigate(['admin']);
+        }
+        else if (userRole && userRole === 'customer') {
+            this.router.navigate(['home']);
+        }
+        else if (userRole && userRole === 'staff') {
+            this.router.navigate(['home']);
+        }
+        else {
+            this.router.navigate(['login']);
+        }
+    };
     return LoginService;
 }());
 LoginService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [http_1.Http,
+        router_1.Router])
 ], LoginService);
 exports.LoginService = LoginService;
 //# sourceMappingURL=login.service.js.map

@@ -11,11 +11,11 @@ let getUsers = (req, res) => {
 
 let createUser = (req, res) => {
     let User = req.body
-
-    if (User.password !== User.confirmPassword) {
-        // TODO: Implement proper error handling
-        res.send('Passwords do not match!')
-    } else {
+    let userExists;
+    UserModel.findOne({ username: req.body.username }).then(user => {
+        userExists = (user ? true : false);
+    })
+    if (User.password && !userExists) {
         User.salt = encryption.generateSalt()
         User.hashedPwd = encryption.generateHashedPassword(User.salt, User.password)
         UserModel
@@ -26,10 +26,8 @@ let createUser = (req, res) => {
 
 let authenticate = (req, res) => {
     let userCred = req.body
-    console.log(req.body)
     UserModel
         .findOne({ username: userCred.username }, function(err, user) {
-            console.log(user);
             if (!user.authenticate(userCred.password)) {
                 res.redirect('/login')
             } else {
@@ -45,15 +43,23 @@ let logout = (req, res) => {
 
 // Private functions
 let logUserIn = (user, req, res) => {
+    let userRole = user.role,
+        username = user.username,
+        msgOnSuccess = 'Authentication passed. User found.';
+
     req.login(user, (err, user) => {
         // TODO: Implement proper error handling
         if (err) {
-            console.log(err)
             res.redirect('/')
             res.end()
             return
         } else {
-            res.send({ success: true, user: req.body.username, msg: 'Authentication passed. User found.' })
+            res.send({
+                success: true,
+                user: username,
+                role: userRole,
+                msg: msgOnSuccess
+            })
         }
     })
 }

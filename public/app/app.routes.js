@@ -1,16 +1,18 @@
 "use strict";
 var router_1 = require("@angular/router");
-var home_component_1 = require("./modules/home/home.component");
-var register_component_1 = require("./components/register/register.component");
 var login_component_1 = require("./components/login/login.component");
+// Guards
+var login_guard_component_1 = require("./components/login/login.guard.component");
 var authGuard_component_1 = require("./utils/authGuard.component");
 // Route Configuration
 exports.routes = [
-    { path: '', component: home_component_1.HomeComponent, canActivate: [authGuard_component_1.AuthGuard] },
-    { path: 'register', component: register_component_1.RegisterComponent },
-    { path: 'login', component: login_component_1.LoginComponent },
-    { path: 'home', component: home_component_1.HomeComponent, canActivate: [authGuard_component_1.AuthGuard] },
-    // otherwise redirect to home
+    { path: '', component: login_component_1.LoginComponent, canActivate: [login_guard_component_1.LoginGuard] },
+    { path: 'login', component: login_component_1.LoginComponent, canActivate: [login_guard_component_1.LoginGuard] },
+    // Lazy loading Admin module
+    { path: 'admin', loadChildren: 'app/modules/admin/admin.module#AdminModule', canActivate: [authGuard_component_1.AuthGuard], data: { roles: ['admin'] } },
+    { path: 'home', loadChildren: 'app/modules/home/home.module#HomeModule', canActivate: [authGuard_component_1.AuthGuard], data: { roles: ['customer'] } },
+    { path: 'staff', loadChildren: 'app/modules/staff/staff.module#StaffModule', canActivate: [authGuard_component_1.AuthGuard], data: { roles: ['staff'] } },
+    // otherwise redirect to login
     { path: '**', redirectTo: '/' }
 ];
 // Export

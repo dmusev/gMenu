@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
-import { Router, ActivatedRoute } from '@angular/router';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   moduleId: module.id,
@@ -19,15 +18,8 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-   radioButtons = [
-    {value: 'admin', display: 'Admin', id: 'Role-0'},
-    {value: 'customer', display: 'Customer', id: 'Role-1'},
-    {value: 'waiter', display: 'Waiter', id: 'Role-2'}
-  ];
-
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private loginService: LoginService) {}
 
   ngOnInit() {
@@ -35,13 +27,14 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  submitLogin(): any {
+  submitLogin(): any { // Log user in
     this.loading = true;
-
     this.loginService.login(this.user.name, this.user.password)
         .subscribe(
             data => {
-                this.router.navigate([this.returnUrl]);
+                let userInfo = JSON.parse(localStorage.getItem('currentUser'));
+                let userRole = userInfo ? userInfo.role : '';
+                this.loginService.navigate(userRole);
             },
             error => {
                 console.error(error);

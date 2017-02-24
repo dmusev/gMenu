@@ -15,13 +15,17 @@ var AuthGuard = (function () {
         this.router = router;
     }
     AuthGuard.prototype.canActivate = function (route, state) {
-        if (localStorage.getItem('currentUser')) {
-            // logged in so return true
+        var allowedRoles = route.data['roles'];
+        var userInfo = JSON.parse(localStorage.getItem('currentUser'));
+        var userRole = userInfo ? userInfo.role : '';
+        if (userInfo && (allowedRoles.indexOf(userRole) > -1)) {
             return true;
         }
-        // not logged in so redirect to login page with the return url and return false
-        this.router.navigate(['/login'], {});
-        return false;
+        else {
+            // not logged properly in so redirect to page with the return url and return false
+            this.router.navigate(['/login']);
+            return false;
+        }
     };
     return AuthGuard;
 }());

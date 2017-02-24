@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
@@ -10,7 +11,8 @@ export class LoginService {
 
   private postUrlPath = '/api/users/authenticate'; // Private intance variable
 
-  constructor(private http: Http) { } // Resolve http using constructor
+  constructor(private http: Http,
+    private router: Router) { } // Resolve http using constructor
 
   login(username: string, password: string): Observable<any> {
     let bodyString  = JSON.stringify({ username: username, password: password });
@@ -30,4 +32,16 @@ export class LoginService {
       // remove user from local storage to log user out
       localStorage.removeItem('currentUser');
   }
+
+  navigate(userRole: any): any {
+        if (userRole && userRole === 'admin') {
+            this.router.navigate(['admin']);
+        } else if (userRole && userRole === 'customer') {
+            this.router.navigate(['home']);
+        } else if (userRole && userRole === 'staff') {
+            this.router.navigate(['home']);
+        } else {
+            this.router.navigate(['login']);
+        }
+    }
 }

@@ -7,11 +7,11 @@ let requiredValidationMessage = '{PATH} is required'
 // define our User schema
 let userSchema = mongoose.Schema({
     username: { type: String, required: requiredValidationMessage, unique: true },
-    firstName: { type: String, required: requiredValidationMessage },
-    lastName: { type: String, required: requiredValidationMessage },
+    firstName: [String],
+    lastName: [String],
     salt: String,
     hashedPwd: String,
-    roles: [String]
+    role: { type: String, required: requiredValidationMessage }
 })
 
 // user schema methods go here
@@ -42,7 +42,7 @@ module.exports = {
                     lastName: 'Adminov',
                     salt: salt,
                     hashedPwd: hashedPwd,
-                    roles: ['Admin']
+                    role: 'admin'
                 })
             }
         })

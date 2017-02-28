@@ -8,23 +8,25 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="well">
-                        <form id="loginForm" (submit)="submitLogin()" novalidate="novalidate">
+                        <form [formGroup]="loginForm" id="loginForm" (submit)="submitLogin(loginForm.value)" novalidate="novalidate">
                             <div class="form-group">
                                 <label for="username" class="control-label">Username</label>
-                                <input [(ngModel)]="user.name" type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username" placeholder="example@gmail.com">
+                                <input [formControl]="loginForm.controls['username']" type="text" class="form-control" id="username" name="username" title="Please enter you username" placeholder="example@gmail.com">
+                                <div *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched" class="alert alert-danger">Add an username.</div>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="control-label">Password</label>
-                                <input [(ngModel)]="user.password" type="password" class="form-control" id="password" name="password" value="" required="" title="Please enter your password">
+                                <input [formControl]="loginForm.controls['password']" type="password" class="form-control" id="password" name="password" title="Please enter your password">
+                                <div *ngIf="(loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched)" class="alert alert-danger">You must add a password.</div>
+                                <div *ngIf="userNotFound" class="alert alert-danger">Wrong username or password!</div>
                             </div>
-                            <div id="loginErrorMsg" class="alert alert-error hide">Wrong username og password</div>
                             <div class="checkbox">
                                 <label>
                   <input type="checkbox" name="remember" id="remember"> Remember login
                 </label>
                                 <p class="help-block">(if this is a private computer)</p>
                             </div>
-                            <button type="submit" class="btn btn-success btn-block">Login</button>
+                            <button type="submit" class="btn btn-success btn-block" [disabled]="!loginForm.valid">Login</button>
                             <a href="{{instUrl}}" (click)="reqInst($event, item)" class="button instagram"><span><i class="fa fa-instagram"></i></span><p>instagram</p></a>
                         </form>
                     </div>

@@ -1,19 +1,20 @@
-/**
- * Created by User on 12.1.2017 г..
- */
-import {Component, OnInit} from '@angular/core';
+
+import { Component } from '@angular/core';
+import { LoginService } from './../../components/login/login.service';
+import { SharedService } from './../shared.service';
 
 @Component({
   moduleId: module.id,
   selector:    'g-header',
   templateUrl: './header.view.html',
-  providers:  [  ]
+  styleUrls: ['./header.styles.css']
 })
-export class HeaderComponent implements OnInit {
-  constructor() {
+export class HeaderComponent {
 
-  }
-  ngOnInit() {
+  constructor(private loginService: LoginService, private sharedService: SharedService ) {}
+
+  logout(): any {
+    this.loginService.logout();
   }
 }
 

@@ -24,6 +24,9 @@
                                     {{radioButton.display}}
                                 </label>
                             </span>
+
+            <div *ngIf="(!complexForm.controls['password'].valid && complexForm.controls['password'].touched)" class="alert alert-danger">Password must be at least 5 symbols.</div>
+            <div *ngIf="userExistsError" id="loginErrorMsg" class="alert alert-danger">User name exists!</div>
             <button type="submit" class="btn btn-info btn-block" [disabled]="!complexForm.valid">Register now!</button>
         </form>
     </div>

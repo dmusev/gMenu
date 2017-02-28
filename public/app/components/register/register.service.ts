@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { SharedService } from './../../shared/shared.service';
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
@@ -9,7 +10,8 @@ import 'rxjs/add/operator/map';
 export class RegisterService {
     private postUrlPath = '/api/users/create'; // Private intance variable
 
-    constructor(private http: Http) {} // Resolve http using constructor
+    constructor(private http: Http,
+    private sharedService: SharedService) {} // Resolve http using constructor
 
     create(userModel: any): Observable < any > {
         let bodyString = JSON.stringify(userModel);
@@ -21,7 +23,9 @@ export class RegisterService {
                 let user = res.json(); // .json() on the response to return data
                 if (user) {
                     localStorage.setItem('currentUser', JSON.stringify(user));
+                    this.sharedService.isUserLogged = true;
                 }
-            }).catch((error: any) => Observable.throw(error.json().error || 'Server error')); // catch errors if any
+            }).catch((error: any) => Observable.throw(
+            error || 'Server error')); // catch errors if any
     }
 }

@@ -12,24 +12,34 @@ let getUsers = (req, res) => {
 let createUser = (req, res) => {
     let User = req.body
     let userExists;
-    UserModel.findOne({ username: req.body.username }).then(user => {
-        userExists = (user ? true : false);
+    UserModel.findOne({ username: req.body.username }, function(err, user) {
+        if (user) {
+            res.status(409).send({
+                message: 'User exists!'
+            });
+        } else if (User.password && User.username && User.role) {
+            User.salt = encryption.generateSalt()
+            User.hashedPwd = encryption.generateHashedPassword(User.salt, User.password)
+            UserModel
+                .create(User)
+                .then(user => logUserIn(user, req, res))
+        } else {
+            res.status(400).send({
+                message: 'Not a proper request!'
+            });
+        }
     })
-    if (User.password && !userExists) {
-        User.salt = encryption.generateSalt()
-        User.hashedPwd = encryption.generateHashedPassword(User.salt, User.password)
-        UserModel
-            .create(User)
-            .then(user => logUserIn(user, req, res))
-    }
 }
 
 let authenticate = (req, res) => {
     let userCred = req.body
     UserModel
         .findOne({ username: userCred.username }, function(err, user) {
-            if (!user.authenticate(userCred.password)) {
-                res.redirect('/login')
+            if (!user || !user.authenticate(userCred.password)) {
+                res.status(404).send({
+                    message: 'Non-existing user!'
+                });
+                return;
             } else {
                 logUserIn(user, req, res)
             }
@@ -48,11 +58,11 @@ let logUserIn = (user, req, res) => {
         msgOnSuccess = 'Authentication passed. User found.';
 
     req.login(user, (err, user) => {
-        // TODO: Implement proper error handling
         if (err) {
-            res.redirect('/')
-            res.end()
-            return
+            res.status(500).send({
+                message: 'Cannot log in current user!'
+            });
+            return;
         } else {
             res.send({
                 success: true,

@@ -16,13 +16,17 @@ import { Routing } from './app.routes';
 import { AuthGuard } from './utils/authGuard.component';
 // Login Guard
 import { LoginGuard } from './components/login/login.guard.component';
+// Login service
+import { LoginService } from './components/login/login.service';
+// Shared service
+import { SharedService } from './shared/shared.service';
 
 // Additional libs
 
 @NgModule({
   imports:      [ BrowserModule, LoginModule, FormsModule, Routing, HttpModule ],
   declarations: [ AppComponent, HeaderComponent, FooterComponent ],
-  providers: [ AuthGuard, LoginGuard ],
+  providers: [ AuthGuard, LoginGuard, SharedService, LoginService ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

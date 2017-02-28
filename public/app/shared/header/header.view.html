@@ -1,3 +1,4 @@
 <!--<ng-content select=".1"></ng-content>-->
-<div>HEADER</div>
+<span style="margin: 5px; display: inline-block;">HEADER</span>
 <!--<ng-content select=".2"></ng-content>-->
+<button type="button" (click)="logout()" class="btn btn-primary logout-button" [disabled]="!sharedService.isUserLogged">Logout</button>

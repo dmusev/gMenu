@@ -18,6 +18,7 @@ var RegisterComponent = (function () {
         this.router = router;
         this.regService = regService;
         this.fb = fb;
+        this.userExistsError = false;
         this.radioButtons = [
             { value: 'admin', display: 'Admin', id: 'Role-0' },
             { value: 'customer', display: 'Customer', id: 'Role-1' },
@@ -32,7 +33,7 @@ var RegisterComponent = (function () {
             // We can use more than one validator per field. If we want to use more than one validator
             // we have to wrap our array of validators with a Validators.compose function. Here we are
             // using a required, minimum length and maximum length validator.
-            'password': [null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(5), forms_1.Validators.maxLength(10)])],
+            'password': [null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(5)])],
             'role': [null, forms_1.Validators.required]
         });
     }
@@ -45,10 +46,13 @@ var RegisterComponent = (function () {
         this.loading = true;
         this.regService.create(regUserObj)
             .subscribe(function (data) {
-            _this.router.navigate([_this.returnUrl]);
+            _this.router.navigate(['/ ' + regUserObj.role]);
+            _this.userExistsError = false;
         }, function (error) {
-            console.error(error);
+            _this.userExistsError = true;
             _this.loading = false;
+            console.log(_this.userExistsError);
+            console.error(error);
         });
     };
     return RegisterComponent;

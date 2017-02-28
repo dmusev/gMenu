@@ -14,6 +14,7 @@ export class RegisterComponent {
   complexForm: FormGroup;
   loading: boolean;
   returnUrl: string;
+  userExistsError = false;
 
   radioButtons = [
     {value: 'admin', display: 'Admin', id: 'Role-0'},
@@ -36,7 +37,7 @@ export class RegisterComponent {
         // We can use more than one validator per field. If we want to use more than one validator
         // we have to wrap our array of validators with a Validators.compose function. Here we are
         // using a required, minimum length and maximum length validator.
-        'password': [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
+        'password': [null, Validators.compose([Validators.required, Validators.minLength(5)])],
         'role' : [null, Validators.required]
       });
   }
@@ -52,11 +53,14 @@ export class RegisterComponent {
     this.regService.create(regUserObj)
         .subscribe(
             data => {
-                this.router.navigate([this.returnUrl]);
+                this.router.navigate(['/ ' + regUserObj.role]);
+                this.userExistsError = false;
             },
             error => {
-                console.error(error);
+                this.userExistsError = true;
                 this.loading = false;
+                console.log(this.userExistsError);
+                console.error(error);
             });
   }
 }

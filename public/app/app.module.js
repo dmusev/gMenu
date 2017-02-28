@@ -22,6 +22,10 @@ var app_routes_1 = require("./app.routes");
 var authGuard_component_1 = require("./utils/authGuard.component");
 // Login Guard
 var login_guard_component_1 = require("./components/login/login.guard.component");
+// Login service
+var login_service_1 = require("./components/login/login.service");
+// Shared service
+var shared_service_1 = require("./shared/shared.service");
 // Additional libs
 var AppModule = (function () {
     function AppModule() {
@@ -32,7 +36,7 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, login_module_1.LoginModule, forms_1.FormsModule, app_routes_1.Routing, http_1.HttpModule],
         declarations: [app_component_1.AppComponent, header_component_1.HeaderComponent, footer_component_1.FooterComponent],
-        providers: [authGuard_component_1.AuthGuard, login_guard_component_1.LoginGuard],
+        providers: [authGuard_component_1.AuthGuard, login_guard_component_1.LoginGuard, shared_service_1.SharedService, login_service_1.LoginService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

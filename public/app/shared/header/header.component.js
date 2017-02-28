@@ -8,14 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by User on 12.1.2017 г..
- */
 var core_1 = require("@angular/core");
+var login_service_1 = require("./../../components/login/login.service");
+var shared_service_1 = require("./../shared.service");
 var HeaderComponent = (function () {
-    function HeaderComponent() {
+    function HeaderComponent(loginService, sharedService) {
+        this.loginService = loginService;
+        this.sharedService = sharedService;
     }
-    HeaderComponent.prototype.ngOnInit = function () {
+    HeaderComponent.prototype.logout = function () {
+        this.loginService.logout();
     };
     return HeaderComponent;
 }());
@@ -24,9 +26,9 @@ HeaderComponent = __decorate([
         moduleId: module.id,
         selector: 'g-header',
         templateUrl: './header.view.html',
-        providers: []
+        styleUrls: ['./header.styles.css']
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [login_service_1.LoginService, shared_service_1.SharedService])
 ], HeaderComponent);
 exports.HeaderComponent = HeaderComponent;
 //# sourceMappingURL=header.component.js.map
